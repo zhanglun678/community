@@ -10,8 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class
+UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -24,9 +29,10 @@ public class UserServiceImpl implements UserService {
     private String redirect_uri;
     @Value("${github.client.client_secret}")
     private String client_secret;
+
     @Override
     public int insert(User user) {
-       return userMapper.insert(user);
+        return userMapper.insert(user);
     }
 
     @Override
@@ -46,5 +52,24 @@ public class UserServiceImpl implements UserService {
             //token获取失败
         }
         return null;
+    }
+
+    @Override
+    public User getUserByToken(HttpServletRequest request, HttpServletResponse response) {
+        User user = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    user = userMapper.findUserByToken(cookie.getValue());
+                    if (user != null) {
+                        request.getSession().setAttribute("user", user);
+                    }
+                }
+                break;
+            }
+        }
+
+        return user;
     }
 }
