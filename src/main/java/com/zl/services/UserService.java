@@ -10,4 +10,5 @@ public interface UserService {
     int insert(User user);
     GithubUser getGithubUser(String code,String state);
     User getUserByToken(HttpServletRequest request,HttpServletResponse response);
+
 }

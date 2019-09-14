@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
-public class
-UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -30,9 +29,23 @@ UserServiceImpl implements UserService {
     @Value("${github.client.client_secret}")
     private String client_secret;
 
-    @Override
+    /**
+     * 添加用户
+     * 1. 如果用户已登录则token
+     *
+     * @param user
+     * @return
+     */
     public int insert(User user) {
-        return userMapper.insert(user);
+        //查询用户是否存在
+        User userByAccountId = userMapper.findUserByAccountId(user.getAccountId());
+        int retval = 0;
+        if (userByAccountId != null) {
+            retval = userMapper.updateUser(user);
+        } else {
+            retval = userMapper.insert(user); // 不存在则添加
+        }
+        return retval;
     }
 
     @Override
@@ -58,15 +71,16 @@ UserServiceImpl implements UserService {
     public User getUserByToken(HttpServletRequest request, HttpServletResponse response) {
         User user = null;
         Cookie[] cookies = request.getCookies();
-        if (cookies.length > 0) {
+        if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     user = userMapper.findUserByToken(cookie.getValue());
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
+                        break;
                     }
                 }
-                break;
+
             }
         }
 

@@ -42,7 +42,8 @@ public class AuthorizeController {
 			user.setToken(token);
 			user.setGmtCreate(System.currentTimeMillis());
 			user.setGmtModified(System.currentTimeMillis());
-			userService.insert(user);
+			user.setAvatarUrl(githubUser.getAvatar_url());
+			userService.insert(user);	//写入数据库
 			//写入COOKIE
 			response.addCookie(new Cookie("token",token));
 			return "redirect:/";
@@ -52,8 +53,4 @@ public class AuthorizeController {
 		}
 	}
 
-	@GetMapping("/call")
-	public String test() {
-		return "index";
-	}
 }
