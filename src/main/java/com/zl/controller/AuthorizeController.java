@@ -34,7 +34,7 @@ public class AuthorizeController {
 	@RequestMapping("/callback")
 	public String callback(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state, HttpServletRequest request, HttpServletResponse response) {
 		GithubUser githubUser = userService.getGithubUser(code, state);
-		if(githubUser!=null) {
+		if(githubUser.getId()!=null) {
 			User user = new User();
 			user.setAccountId(String.valueOf(githubUser.getId()));
 			user.setName(String.valueOf(githubUser.getName()));

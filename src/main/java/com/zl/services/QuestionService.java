@@ -1,10 +1,10 @@
 package com.zl.services;
 
+import com.zl.dto.PaginationDTO;
 import com.zl.model.Question;
 
-import java.util.List;
 
 public interface QuestionService {
     int insert(Question question);
-    List<Question> list();
+    PaginationDTO list(Integer page , Integer Size);
 }

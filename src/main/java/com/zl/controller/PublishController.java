@@ -36,6 +36,22 @@ public class PublishController {
     ) {
         User user = userService.getUserByToken(request, response);   //判断用户是否登录
         if(user != null) {
+            request.setAttribute("title",title);
+            request.setAttribute("description",description);
+            request.setAttribute("tag",tag);
+            // 判断数据是否为空
+            if("".equals(title) || title == null){
+                model.addAttribute("errorMsg","标题不能为空");
+                return "publish";
+            }
+            if("".equals(description) || description == null){
+                model.addAttribute("errorMsg","问题描述不能为空");
+                return "publish";
+            }
+            if("".equals(tag) || tag == null){
+                model.addAttribute("errorMsg","标签不能为空");
+                return "publish";
+            }
             Question question = new Question();
             question.setTitle(title);
             question.setDescription(description);

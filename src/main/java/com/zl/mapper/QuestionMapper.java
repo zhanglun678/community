@@ -3,6 +3,7 @@ package com.zl.mapper;
 import com.zl.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -16,6 +17,10 @@ public interface QuestionMapper {
     int insert(Question question);
 
     @Select("select question.id,title,question.description,question.gmt_create,question.gmt_modified,question.creator,comment_count,view_count," +
-            "like_count,tag,user.avatar_url as avatarUrl from question left join user on question.creator = user.id")
-    List<Question> list();
+            "like_count,tag,user.avatar_url as avatarUrl from question left join user on question.creator = user.id " +
+            "limit #{offset} ,#{size}")
+    List<Question> list(@Param("offset") Integer offset,@Param("size") Integer size);
+
+    @Select("select count(1) from question")
+    int count();
 }
