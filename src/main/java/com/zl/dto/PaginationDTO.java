@@ -19,14 +19,8 @@ public class PaginationDTO {
     private Integer page; // 当前页
     private Integer totalPage;//尾页码
     private List<Integer> pages=new ArrayList<>();
-    public void getPage(Integer page,Integer size, Integer totalSize) {
-        int totalPage  = 0 ;
-        //计算出总页码
-        if(totalSize%size != 0 ){
-            totalPage = (totalSize/size) + 1;
-        }else if (totalSize%size == 0){
-            totalPage = totalSize/size;
-        }
+    public void getPage(Integer page,Integer size, Integer totalSize,Integer totalPage) {
+
         this.totalPage = totalPage;
         this.page = page;
         //计算出需要显示的页码

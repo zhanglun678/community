@@ -22,12 +22,25 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public PaginationDTO list(Integer page, Integer size) {
+        int totalSize = questionMapper.count();
+        int totalPage  = 0 ;
+        //计算出总页码
+        if(totalSize%size != 0 ){
+            totalPage = (totalSize/size) + 1;
+        }else if (totalSize%size == 0){
+            totalPage = totalSize/size;
+        }
+        if(page<1){
+            page=1;
+        }
+        if(page>totalPage){
+            page=totalPage;
+        }
         Integer offset = (page-1) * size;
         PaginationDTO paginationDTO = new PaginationDTO();
         List<Question> questionList = questionMapper.list(offset, size);
-        int totalSize = questionMapper.count();
         paginationDTO.setQuestionsList(questionList);   // 列表数据
-        paginationDTO.getPage(page,size,totalSize);
+        paginationDTO.getPage(page,size,totalSize,totalPage);
         return paginationDTO;
     }
 }

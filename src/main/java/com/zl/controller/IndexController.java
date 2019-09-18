@@ -30,6 +30,9 @@ public class IndexController {
                         @RequestParam(value = "page",defaultValue ="1") Integer page,
                         @RequestParam(value = "size",defaultValue ="7") Integer size) {
         User userByToken = userService.getUserByToken(request, response);    //判断用户是否登录
+        if(page<1){
+            page=1;
+        }
         //查询数据
         PaginationDTO paginationDTO = questionService.list(page,size);
         model.addAttribute("paginationDTO",paginationDTO);
