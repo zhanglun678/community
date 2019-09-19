@@ -7,4 +7,5 @@ import com.zl.model.Question;
 public interface QuestionService {
     int insert(Question question);
     PaginationDTO list(Integer page , Integer Size);
+    PaginationDTO list(Integer creator,Integer page , Integer size);
 }

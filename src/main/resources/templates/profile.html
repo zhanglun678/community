@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${sectionName}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:include="common :: nav"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9 .col-md-12 .col-sm-12 .col-xs-12">
+            <h2 th:text="${sectionName}">
+
+            </h2>
+            <hr>
+            <div class="col-lg-9 .col-md-12 .col-sm-12 .col-xs-12">
+                <h2>
+                    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现
+                </h2>
+                <hr>
+                <div class="media" th:each="question : ${paginationDTO.questionsList}">
+
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img class="media-object questionUserImg" th:src="@{${question.avatarUrl}}"  >
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${question.title}"></h4>
+                        <span><span th:text="${question.commentCount}"></span> 个回复 • <span
+                                th:text="${question.viewCount}"></span> 次浏览 • <span
+                                th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}"></span></span>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li  th:if="${paginationDTO.showHomePage}">
+                            <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${paginationDTO.showPreviousPage}">
+                            <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page}-1)}"  aria-label="Previous">
+                                <span aria-hidden="true"><</span>
+                            </a>
+                        </li>
+                        <li th:each="page : ${paginationDTO.pages}"
+                            th:class="${paginationDTO.page eq page} ? 'active' : '' ">
+                            <a th:href="@{'/profile/'+${section}(page=${page})}"  th:text="${page}"><span class="sr-only">(current)</span></a>
+                        </li>
+                        <li th:if="${paginationDTO.showNextPage}">
+                            <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page}+1)}" aria-label="Next">
+                                <span aria-hidden="true">></span>
+                            </a>
+                        </li>
+                        <li th:if="${paginationDTO.showEndPage}">
+                            <a th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-lg-3 .col-md-12 .col-sm-12 .col-xs-12">
+            <div class="list-group">
+                <a href="/profile/questions"
+                   th:class="${section eq 'questions'} ? 'list-group-item active' : 'list-group-item' ">
+                    消息中心
+                    <span class="badge">14</span>
+                </a>
+                <a href="/profile/reply"
+                   th:class="${section eq 'reply'} ? 'list-group-item active' : 'list-group-item' ">
+                    最新回复
+                    <span class="badge">14</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
