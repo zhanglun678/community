@@ -28,13 +28,13 @@ public class ProfileController {
                         @RequestParam(value = "size",defaultValue ="7") Integer size,
                         HttpServletRequest request,
                         HttpServletResponse response) {
-        User userByToken = userService.getUserByToken(request, response);    //判断用户是否登录
+        User user = (User) request.getSession().getAttribute("user");
         if(page<1){
             page=1;
         }
         if ("questions".equals(action)) {
             // 查询我的提问
-            PaginationDTO list = questionService.list(userByToken.getId(), page, size);
+            PaginationDTO list = questionService.list(user.getId(), page, size);
             model.addAttribute("paginationDTO",list);
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");

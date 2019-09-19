@@ -34,7 +34,7 @@ public class PublishController {
             HttpServletResponse response,
             Model model
     ) {
-        User user = userService.getUserByToken(request, response);   //判断用户是否登录
+        User user = (User) request.getSession().getAttribute("user");
         if(user != null) {
             request.setAttribute("title",title);
             request.setAttribute("description",description);

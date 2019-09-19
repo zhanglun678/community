@@ -43,9 +43,11 @@ public class AuthorizeController {
 			user.setGmtCreate(System.currentTimeMillis());
 			user.setGmtModified(System.currentTimeMillis());
 			user.setAvatarUrl(githubUser.getAvatar_url());
-			userService.insert(user);	//写入数据库
+			int insert = userService.insert(user);//写入数据库
 			//写入COOKIE
 			response.addCookie(new Cookie("token",token));
+			User userByToken = userService.getUserByToken(token);
+			request.getSession().setAttribute("user",userByToken);
 			return "redirect:/";
 		}else{
 			//登录失败

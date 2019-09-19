@@ -6,6 +6,8 @@
 
 [spring boot web文档](https://spring.io/guides/gs/serving-web-content/)
 
+[mvc-handlermapping-interceptor](https://docs.spring.io/spring/docs/5.1.9.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor)
+
 [creating-an-oauth-app](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
 
 [authorizing-oauth-apps](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/)

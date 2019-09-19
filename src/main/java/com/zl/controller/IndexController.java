@@ -29,7 +29,7 @@ public class IndexController {
     public String index(HttpServletRequest request, HttpServletResponse response, Model model,
                         @RequestParam(value = "page",defaultValue ="1") Integer page,
                         @RequestParam(value = "size",defaultValue ="7") Integer size) {
-        User userByToken = userService.getUserByToken(request, response);    //判断用户是否登录
+        User user = (User) request.getSession().getAttribute("user");
         if(page<1){
             page=1;
         }
